@@ -1,0 +1,35 @@
+{
+  "name": "hexo-filter-date-from-git",
+  "version": "0.0.0",
+  "description": "Read git log and overwrite the front-matter properties `date` and `updated` for each posts",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . && echo 'ESLint Passed!\\n'",
+    "test": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xcatliu/hexo-filter-date-from-git.git"
+  },
+  "keywords": [
+    "hexo",
+    "filter",
+    "date",
+    "updated",
+    "git"
+  ],
+  "author": "xcatliu <xcatliu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xcatliu/hexo-filter-date-from-git/issues"
+  },
+  "homepage": "https://github.com/xcatliu/hexo-filter-date-from-git#readme",
+  "dependencies": {
+    "moment-timezone": "^0.5.4"
+  },
+  "devDependencies": {
+    "eslint": "^2.13.1",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.8.1"
+  }
+}
