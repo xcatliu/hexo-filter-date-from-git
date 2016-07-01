@@ -16,19 +16,19 @@ $ npm install hexo-filter-date-from-git --save
 
 ## Usage
 
-The `date` property will be the first time when you submitted the post. Same result as:
+The `date` property will be the first time when you committed the post. Same result as:
 
 ```shell
 git log --format="%ad" -- <file> | tail -1
 ```
 
-The `updated` property will be the last time when you submitted the post. Same result as:
+The `updated` property will be the last time when you committed the post. Same result as:
 
 ```shell
 git log --format="%ad" -- <file> | tail -1
 ```
 
-**NOTICE:** If you created a new file, and before you submitted the file, the `date` and `updated` will be the time you run your hexo command.
+**NOTICE:** If you created a new file, and before you committed the file, the `date` and `updated` will be the time you run your hexo command.
 
 ## Options
 
