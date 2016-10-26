@@ -14,7 +14,7 @@ hexo.extend.filter.register('before_post_render', data => {
 
 function getDate(data) {
   const filePath = getFilePath(data);
-  const date = execSync(`git log --format="%ad" -- ${filePath} | tail -1`).toString().trim();
+  const date = execSync(`git log --follow --format="%ad" -- ${filePath} | tail -1`).toString().trim();
   // If the file is created a moment ago, it will be an untracked file, then git can not log it
   if (date === '') {
     return moment();
@@ -24,7 +24,7 @@ function getDate(data) {
 
 function getUpdated(data) {
   const filePath = getFilePath(data);
-  const updated = execSync(`git log -1 --format="%ad" -- ${filePath}`).toString().trim();
+  const updated = execSync(`git log --follow -1 --format="%ad" -- ${filePath}`).toString().trim();
   if (updated === '') {
     return moment();
   }
@@ -32,5 +32,5 @@ function getUpdated(data) {
 }
 
 function getFilePath(data) {
-  return path.join(':', hexo.config.source_dir, data.source);
+  return path.resolve(hexo.config.source_dir, data.source);
 }
