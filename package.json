@@ -1,6 +1,6 @@
 {
   "name": "hexo-filter-date-from-git",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Read git log and overwrite the front-matter properties `date` and `updated` for each posts",
   "main": "index.js",
   "scripts": {
