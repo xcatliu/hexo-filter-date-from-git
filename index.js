@@ -7,8 +7,18 @@ const execSync = require('child_process').execSync;
 const moment = require('moment-timezone');
 
 hexo.extend.filter.register('before_post_render', data => {
-  data.date = getDate(data);
-  data.updated = getUpdated(data);
+  const originDate = data.date;
+  const gitDate = getDate(data);
+  if (gitDate < originDate) {
+    data.date = gitDate;
+  }
+
+  const originUpdated = data.updated;
+  const gitUpdated = getUpdated(data);
+  if (gitUpdated < originUpdated) {
+    data.updated = gitUpdated;
+  }
+
   return data;
 });
 
