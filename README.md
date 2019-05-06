@@ -1,5 +1,8 @@
 # hexo-filter-date-from-git
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/xcatliu/hexo-filter-date-from-git.svg)](https://greenkeeper.io/)
+
+
 Read git log and overwrite the front-matter properties `date` and `updated` for each posts.
 
 **WARNING:** This plugin will **overwrite** the front-matter, **even if** you manually set a `date` or `updated` in the front-matter.
