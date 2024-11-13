@@ -6,22 +6,19 @@ const log = hexo.log || log.log;
 const path = require('path');
 const execSync = require('child_process').execSync;
 const moment = require('moment-timezone');
+const front = require('hexo-front-matter');
 
 hexo.extend.filter.register('before_post_render', data => {
   const filePath = getFilePath(data);
-  
-  const originDate = data.date;
-  const gitDate = getDate(filePath);
-  if (gitDate < originDate) {
-    data.date = gitDate;
-    log.log(`Post ${filePath}  set "date" to ${gitDate.format('YYYY-MM-DD HH:mm:ss')}`);
-  }
+  const [dateExist, updatedExist] = checkDateMetaExistence(data)
 
-  const originUpdated = data.updated;
-  const gitUpdated = getUpdated(filePath);
-  if (gitUpdated < originUpdated) {
-    data.updated = gitUpdated;
-	log.log(`Post ${filePath}  set "updated" to ${gitUpdated.format('YYYY-MM-DD HH:mm:ss')}`);
+  if (!dateExist) {
+    data.date = getDate(filePath);
+    log.log(`Post ${filePath}  set "date" to ${data.date.format('YYYY-MM-DD HH:mm:ss')}`);
+  }
+  if (!updatedExist) {
+    data.updated = getUpdated(filePath);
+	  log.log(`Post ${filePath}  set "updated" to ${data.updated.format('YYYY-MM-DD HH:mm:ss')}`);
   }
 
   return data;
@@ -46,4 +43,18 @@ function getUpdated(filePath) {
 
 function getFilePath(data) {
   return path.resolve(hexo.config.source_dir, data.source);
+}
+
+function checkDateMetaExistence(data) {
+  const raw = front.parse(data.raw);
+  if (raw == null)
+    return [false, false]
+  
+  let dateExist = false;
+  let updatedExist = false;
+  if (raw.date)
+    dateExist = true;
+  if (raw.updated)
+    updatedExist = true;
+  return [dateExist, updatedExist]
 }
