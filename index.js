@@ -10,13 +10,15 @@ const front = require('hexo-front-matter');
 
 hexo.extend.filter.register('before_post_render', data => {
   const filePath = getFilePath(data);
-  const [dateExist, updatedExist] = checkDateMetaExistence(data)
+  const [originalDate, originalUpdated] = getOriginalDateMeta(data)
 
-  if (!dateExist) {
+  if (!originalDate || originalDate.valueOf() <= 1000) {
+    // original "date" is invalid
     data.date = getDate(filePath);
     log.log(`Post ${filePath}  set "date" to ${data.date.format('YYYY-MM-DD HH:mm:ss')}`);
   }
-  if (!updatedExist) {
+  if (!originalUpdated || originalUpdated.valueOf() <= 1000) {
+    // original "updated" is invalid
     data.updated = getUpdated(filePath);
 	  log.log(`Post ${filePath}  set "updated" to ${data.updated.format('YYYY-MM-DD HH:mm:ss')}`);
   }
@@ -45,16 +47,9 @@ function getFilePath(data) {
   return path.resolve(hexo.config.source_dir, data.source);
 }
 
-function checkDateMetaExistence(data) {
-  const raw = front.parse(data.raw);
-  if (raw == null)
-    return [false, false]
-  
-  let dateExist = false;
-  let updatedExist = false;
-  if (raw.date)
-    dateExist = true;
-  if (raw.updated)
-    updatedExist = true;
-  return [dateExist, updatedExist]
+function getOriginalDateMeta(data) {
+  const frontMatter = front.parse(data.raw);
+  if (frontMatter == null)
+    return [null, null]
+  return [frontMatter.date, frontMatter.updated]
 }
